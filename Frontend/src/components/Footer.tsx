@@ -17,12 +17,36 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="flex items-center justify-center space-x-6 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-cosmos-400 transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-cosmos-400 transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-cosmos-400 transition-colors">Support</a>
-          <a href="#" className="hover:text-cosmos-400 transition-colors">Contact</a>
-        </div>
+        <div className="flex flex-col items-center space-y-4 mt-8 text-sm text-muted-foreground">
+  <div className="flex flex-wrap justify-center space-x-6">
+    <a
+      href="/privacy-policy"
+      className="hover:text-cosmos-400 transition-colors underline text-center"
+    >
+      Privacy Policy
+    </a>
+    <a
+      href="/terms-of-service"
+      className="hover:text-cosmos-400 transition-colors underline text-center"
+    >
+      Terms of Service
+    </a>
+    <a
+      href="/support"
+      className="hover:text-cosmos-400 transition-colors underline text-center"
+    >
+      Support
+    </a>
+    <a
+      href="/contact"
+      className="hover:text-cosmos-400 transition-colors underline text-center"
+    >
+      Contact
+    </a>
+  </div>
+</div>
+
+
         
         <p className="text-xs text-muted-foreground">
           © 2024 DocSign Universe. All rights reserved across the galaxy.

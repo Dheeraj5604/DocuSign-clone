@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/button';
+import { Button } from './ui/button';
 // Try this if the file is named 'Input.tsx' (adjust the casing as per your project)
 
 import { Check } from 'lucide-react';
-import { Signature } from '../components/SignatureOptions';
-import { Input } from '../components/ui/input';
+import { Signature } from './SignatureOptions';
+import { Input } from './ui/input';
 
 interface TypeSignatureProps {
   onSignatureCreate: (signature: Signature) => void;

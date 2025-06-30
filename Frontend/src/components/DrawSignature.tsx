@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
-import { Button } from '../components/ui/button';
+import { Button } from './ui/button';
 import { RotateCcw, Check } from 'lucide-react';
-import { Signature } from '../components/SignatureOptions';
+import { Signature } from './SignatureOptions';
 
 interface DrawSignatureProps {
   onSignatureCreate: (signature: Signature) => void;

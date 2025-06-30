@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/button'; 
+import { Button } from './ui/button'; 
 import { Download, Send, Plus } from 'lucide-react';
-import { Signature } from '../components/SignatureOptions';
+import { Signature } from './SignatureOptions';
 
 interface PlacedSignature extends Signature {
   id: string;

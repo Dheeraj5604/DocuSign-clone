@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Upload, FileText, X } from 'lucide-react';
-import { Button } from '../components/ui/button';
-
+import { Upload, FileText, X, Loader2 } from 'lucide-react';
+import { Button } from './ui/button';
+import api from '../lib/api';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -11,6 +11,8 @@ interface FileUploadProps {
 
 const FileUpload = ({ onFileSelect, selectedFile, onRemoveFile }: FileUploadProps) => {
   const [isDragOver, setIsDragOver] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -22,22 +24,47 @@ const FileUpload = ({ onFileSelect, selectedFile, onRemoveFile }: FileUploadProp
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    const pdfFile = files.find(file => file.type === 'application/pdf');
-    
-    if (pdfFile) {
-      onFileSelect(pdfFile);
-    }
-  }, [onFileSelect]);
+  const handleDrop = useCallback(
+    async (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.dataTransfer.files);
+      const pdfFile = files.find((file) => file.type === 'application/pdf');
+
+      if (pdfFile) {
+        await handleFileUpload(pdfFile);
+      }
+    },
+    [onFileSelect]
+  );
+
+  const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type === 'application/pdf') {
-      onFileSelect(file);
+      await handleFileUpload(file);
+    }
+  };
+
+  const handleFileUpload = async (file: File) => {
+    setUploading(true);
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      console.log('File uploaded successfully:', response.data);
+      onFileSelect(file); // Notify parent component with the selected file
+    } catch (err) {
+      console.error('Error uploading file:', err);
+      setError('Failed to upload the file. Please try again.');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -83,7 +110,11 @@ const FileUpload = ({ onFileSelect, selectedFile, onRemoveFile }: FileUploadProp
       >
         <div className="flex flex-col items-center space-y-4">
           <div className="p-4 bg-gradient-to-r from-cosmos-500 to-accent rounded-full animate-float">
-            <Upload className="w-12 h-12 text-white" />
+            {uploading ? (
+              <Loader2 className="w-12 h-12 text-white animate-spin" />
+            ) : (
+              <Upload className="w-12 h-12 text-white" />
+            )}
           </div>
           <div>
             <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -100,11 +131,13 @@ const FileUpload = ({ onFileSelect, selectedFile, onRemoveFile }: FileUploadProp
               accept=".pdf"
               onChange={handleFileInput}
               className="hidden"
+              disabled={uploading}
             />
           </label>
           <p className="text-xs text-muted-foreground">
             Maximum file size: 10MB. Only PDF files are supported.
           </p>
+          {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
         </div>
       </div>
     </div>

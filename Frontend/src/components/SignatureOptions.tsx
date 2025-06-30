@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { PenTool, Type, Upload } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import DrawSignature from '../components/DrawSignature';
-import TypeSignature from '../components/TypeSignature';
-import UploadSignature from '../components/UploadSignature';
+import { Button } from './ui/button';
+import DrawSignature from './DrawSignature';
+import TypeSignature from './TypeSignature';
+import UploadSignature from './UploadSignature';
 
 export interface Signature {
   type: 'draw' | 'type' | 'upload';

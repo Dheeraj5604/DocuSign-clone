@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Button } from '../components/ui/button';
+import { Button } from './ui/button';
 import { Upload, Check, X } from 'lucide-react';
-import { Signature } from '../components/SignatureOptions';
+import { Signature } from './SignatureOptions';
 
 interface UploadSignatureProps {
   onSignatureCreate: (signature: Signature) => void;
